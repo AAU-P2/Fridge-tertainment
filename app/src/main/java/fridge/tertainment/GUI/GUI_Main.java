@@ -1,7 +1,6 @@
 package fridge.tertainment.GUI;
 
 import javax.swing.*;
-
 public class GUI_Main {
     JFrame frame;
     public GUI_Main(){
@@ -14,6 +13,7 @@ public class GUI_Main {
         frame.setSize(400,500);
         frame.setLayout(null);
         frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
 }
