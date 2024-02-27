@@ -1,6 +1,5 @@
 package fridge.tertainment.GUI;
 
-import javax.swing.*;
 import java.awt.Color;
 
 public class GUI_Main {

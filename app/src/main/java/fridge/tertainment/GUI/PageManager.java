@@ -6,7 +6,7 @@ public class PageManager {
     private static GUI_frame guiFrame;
     static GUI_page[] pages = new GUI_page[]{
             new GUI_page("Indstillinger"),
-            new GUI_page("Køleskab"),
+            new GridBagLayoutTestPage("Køleskab"),
             new GUI_page("Opskrifter"),
             new GUI_page("Ugeplan"),
 

@@ -13,6 +13,5 @@ public class GUI_page extends JPanel {
         testLabel.setText(title);
         add(testLabel);
         setVisible(true);
-        setOpaque(true);
     }
 }

@@ -6,7 +6,6 @@ import java.awt.*;
 public class GUI_frame extends JFrame {
 
     protected NavigationBar navBar;
-
     GUI_page currentPage;
 
     GUI_frame() {
