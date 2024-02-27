@@ -2,8 +2,6 @@ package fridge.tertainment.GUI;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class GUI_frame extends JFrame {
 
