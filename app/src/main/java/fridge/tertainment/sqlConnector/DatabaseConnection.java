@@ -6,8 +6,6 @@ import java.io.InputStream;
 import java.sql.*;
 import java.util.Properties;
 
-import com.google.common.util.concurrent.ExecutionError;
-
 //Class to test datacase/code connection. Connection parameters are specified in db.properties file.
 
 public class DatabaseConnection {
