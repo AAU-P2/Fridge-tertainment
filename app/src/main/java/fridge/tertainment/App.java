@@ -3,17 +3,34 @@
  */
 package fridge.tertainment;
 
-import fridge.tertainment.GUI.GUI_Main;
+import java.sql.*;
+import fridge.tertainment.DataBase.*;
+
+//import fridge.tertainment.GUI.GUI_Main;
+import fridge.tertainment.sqlConnector.Repository;
 
 public class App {
     public String getGreeting() {
         return "Hello World!";
     }
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+    static void Test() {
+        try {
+            Repository repository = new Repository();
+            var list = repository.recipes.GetRecipeDTOs();
+            for (var item : list) System.out.println(item.toString());
+            repository.recipes.UpdateRecipe(list.get(0));
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 
-        new GUI_Main();
-        
+    public static void main(String[] args) {
+        //System.out.println(new App().getGreeting());
+
+        Test();
+
+        //new GUI_Main();Chang
     }
 }
