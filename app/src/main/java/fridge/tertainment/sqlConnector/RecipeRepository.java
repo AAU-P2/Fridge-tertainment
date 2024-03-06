@@ -31,7 +31,7 @@ public class RecipeRepository extends DatabaseConnection {
 
         ArrayList<RecipeDTO> list = new ArrayList<RecipeDTO>();
         Statement s = connection.createStatement();
-        ResultSet resultSet = s.executeQuery("SELECT * FROM recipe");
+        ResultSet resultSet = s.executeQuery("SELECT * FROM opskrift");
 
         while (resultSet.next()) {
             list.add(mapResultToRecipeDTO(resultSet));
@@ -42,14 +42,14 @@ public class RecipeRepository extends DatabaseConnection {
     
     public RecipeDTO GetRecipeDTO(int id) throws SQLException {
         Statement s = connection.createStatement();
-        ResultSet resultSet = s.executeQuery("SELECT * FROM recipe WHERE ID = " + id);
+        ResultSet resultSet = s.executeQuery("SELECT * FROM opskrift WHERE opskrift_id = " + id);
         if (!resultSet.next()) throw new SQLException("Not found");
         return mapResultToRecipeDTO(resultSet);
     }
 
     public boolean UpdateRecipe(RecipeDTO dto) throws SQLException {
         Statement s = connection.createStatement();
-        String sql = String.format("UPDATE recipe \nSET name = '%s', text = '%s', amount = %d \nWHERE ID = %d", dto.name, dto.text, dto.amount, dto.id);
+        String sql = String.format("UPDATE opskrift \nSET navn = '%s', instruktioner = '%s', antal_personer = %d \nWHERE opskrift_id = %d", dto.name, dto.text, dto.amount, dto.id);
         int result = s.executeUpdate(sql);
         return result == 1;
     }
