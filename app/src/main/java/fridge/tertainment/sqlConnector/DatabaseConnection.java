@@ -10,10 +10,15 @@ import java.util.Properties;
 
 public class DatabaseConnection {
 
+    public Connection connection;
 
     public DatabaseConnection() throws Exception {
         getConnectionProperties();
-        initConnection(properties);
+        this.connection = initConnection(properties);
+    }
+
+    public DatabaseConnection(DatabaseConnection dc) {
+        this.connection = dc.connection;
     }
 
     public static Properties properties = new Properties();
