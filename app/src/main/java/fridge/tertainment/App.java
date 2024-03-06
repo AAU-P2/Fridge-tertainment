@@ -4,7 +4,7 @@
 package fridge.tertainment;
 
 import java.sql.*;
-import fridge.tertainment.DataBase.*;
+//import fridge.tertainment.DataBase.*;
 
 //import fridge.tertainment.GUI.GUI_Main;
 import fridge.tertainment.sqlConnector.Repository;
