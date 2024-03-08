@@ -1,8 +1,7 @@
 package fridge.tertainment.DataBase.DTO;
 
-public class RecipeDTO {
-
-    public int id;
+public class RecipeDTO extends DTO1 {
+    
     public String name;
     public String text;
     public int amount;

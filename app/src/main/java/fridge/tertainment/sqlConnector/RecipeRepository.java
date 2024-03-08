@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import fridge.tertainment.DataBase.DTO.RecipeDTO;
 
-public class RecipeRepository extends DatabaseConnection {
+public class RecipeRepository extends DatabaseConnection implements IDTO1Repository<RecipeDTO>{
 
     public RecipeRepository() throws Exception {
         super();
@@ -18,7 +18,7 @@ public class RecipeRepository extends DatabaseConnection {
         super(dc);
     }
 
-    public static RecipeDTO mapResultToRecipeDTO(ResultSet resultSet) throws SQLException {
+    protected static RecipeDTO mapResultToRecipeDTO(ResultSet resultSet) throws SQLException {
         return new RecipeDTO(
             resultSet.getInt(1), 
             resultSet.getString(2),
@@ -27,7 +27,8 @@ public class RecipeRepository extends DatabaseConnection {
         );
     }
 
-    public ArrayList<RecipeDTO> GetRecipeDTOs() throws SQLException {
+    @Override
+    public ArrayList<RecipeDTO> GetAll() throws SQLException {
 
         ArrayList<RecipeDTO> list = new ArrayList<RecipeDTO>();
         Statement s = connection.createStatement();
@@ -40,18 +41,32 @@ public class RecipeRepository extends DatabaseConnection {
         return list;
     }
     
-    public RecipeDTO GetRecipeDTO(int id) throws SQLException {
+    @Override
+    public RecipeDTO Get(int id) throws SQLException {
         Statement s = connection.createStatement();
         ResultSet resultSet = s.executeQuery("SELECT * FROM opskrift WHERE opskrift_id = " + id);
         if (!resultSet.next()) throw new SQLException("Not found");
         return mapResultToRecipeDTO(resultSet);
     }
 
-    public boolean UpdateRecipe(RecipeDTO dto) throws SQLException {
+    @Override
+    public boolean Update(RecipeDTO dto) throws SQLException {
         Statement s = connection.createStatement();
         String sql = String.format("UPDATE opskrift \nSET navn = '%s', instruktioner = '%s', antal_personer = %d \nWHERE opskrift_id = %d", dto.name, dto.text, dto.amount, dto.id);
         int result = s.executeUpdate(sql);
         return result == 1;
+    }
+
+    @Override
+    public boolean Delete(RecipeDTO dto) throws SQLException {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'Delete'");
+    }
+
+    @Override
+    public boolean Delete(int id) throws SQLException {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'Delete'");
     }
 
 }
