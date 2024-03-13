@@ -4,27 +4,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import fridge.tertainment.DataBase.DTO.DTO1;
 import fridge.tertainment.DataBase.DTO.IngredienceDTO;
 
-public class IngredienceRepository extends DatabaseConnection implements IDTO1Repository<IngredienceDTO>{
+public class IngredienceRepository extends DTO1Repository<IngredienceDTO> {
 
-    public IngredienceRepository() throws Exception {
-        super();
-    }
-
-    public IngredienceRepository(DatabaseConnection dc) {
-        super(dc);
-    }
-
-    private static IngredienceDTO mapResultToIngredienceDTO(ResultSet rs) throws SQLException{
-        return new IngredienceDTO(rs.getInt(1), rs.getString(2));
-    }
-
-    @Override
-    public IngredienceDTO Get(int id) throws SQLException {
-        ResultSet rs = connection.createStatement().executeQuery("SELECT * FROM ingredienser where ingrediens_id = " + id);
-        rs.next();
-        return mapResultToIngredienceDTO(rs);
+    public IngredienceRepository(DatabaseConnection dc) throws Exception{
+        super("ingredients", "Ingredient_id", dc);
     }
 
     @Override
@@ -34,26 +20,14 @@ public class IngredienceRepository extends DatabaseConnection implements IDTO1Re
     }
 
     @Override
-    public boolean Delete(IngredienceDTO dto) throws SQLException {
-        return Delete(dto.id);
-    }
-
-    @Override
-    public boolean Delete(int id) throws SQLException {
+    public boolean Create(IngredienceDTO dto) throws SQLException {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'Delete'");
+        throw new UnsupportedOperationException("Unimplemented method 'Create'");
     }
 
     @Override
-    public ArrayList<IngredienceDTO> GetAll() throws SQLException {
-        ResultSet resultSet = connection.createStatement().executeQuery("SELECT * FROM ingredienser");
-        resultSet.next();
-
-        ArrayList<IngredienceDTO> list = new ArrayList<IngredienceDTO>();
-        while (resultSet.next()) {
-            list.add(mapResultToIngredienceDTO(resultSet));
-        }
-        return list;
+    protected IngredienceDTO mapResultToDTO(ResultSet rs) throws SQLException {
+        return new IngredienceDTO(rs.getInt(1), rs.getString(2));
     }
     
 }

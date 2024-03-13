@@ -4,69 +4,40 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import java.util.ArrayList;
-
 import fridge.tertainment.DataBase.DTO.RecipeDTO;
 
-public class RecipeRepository extends DatabaseConnection implements IDTO1Repository<RecipeDTO>{
+public class RecipeRepository extends DTO1Repository<RecipeDTO>{
 
-    public RecipeRepository() throws Exception {
-        super();
+    public RecipeRepository(DatabaseConnection _connection) throws Exception {
+        super("recipe", "recipe_id", _connection);
     }
 
-    public RecipeRepository(DatabaseConnection dc) {
-        super(dc);
-    }
-
-    protected static RecipeDTO mapResultToRecipeDTO(ResultSet resultSet) throws SQLException {
+    @Override
+    protected RecipeDTO mapResultToDTO(ResultSet rs) throws SQLException {
         return new RecipeDTO(
-            resultSet.getInt(1), 
-            resultSet.getString(2),
-            resultSet.getString(3),
-            resultSet.getInt(4)
+            rs.getInt(1), 
+            rs.getString(2),
+            rs.getString(3),
+            rs.getInt(4)
         );
     }
 
-    @Override
-    public ArrayList<RecipeDTO> GetAll() throws SQLException {
-
-        ArrayList<RecipeDTO> list = new ArrayList<RecipeDTO>();
-        Statement s = connection.createStatement();
-        ResultSet resultSet = s.executeQuery("SELECT * FROM opskrift");
-
-        while (resultSet.next()) {
-            list.add(mapResultToRecipeDTO(resultSet));
-        }
-
-        return list;
-    }
-    
-    @Override
-    public RecipeDTO Get(int id) throws SQLException {
-        Statement s = connection.createStatement();
-        ResultSet resultSet = s.executeQuery("SELECT * FROM opskrift WHERE opskrift_id = " + id);
-        if (!resultSet.next()) throw new SQLException("Not found");
-        return mapResultToRecipeDTO(resultSet);
-    }
 
     @Override
     public boolean Update(RecipeDTO dto) throws SQLException {
         Statement s = connection.createStatement();
-        String sql = String.format("UPDATE opskrift \nSET navn = '%s', instruktioner = '%s', antal_personer = %d \nWHERE opskrift_id = %d", dto.name, dto.text, dto.amount, dto.id);
+        String sql = String.format(
+            "UPDATE recipe \nSET recipe_name = '%s', recipe_instructions = '%s', recipe_Number_of_people = %d \nWHERE recipe_id = %d", 
+            dto.name, dto.text, dto.amount, dto.id);
         int result = s.executeUpdate(sql);
         return result == 1;
     }
 
-    @Override
-    public boolean Delete(RecipeDTO dto) throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'Delete'");
-    }
 
     @Override
-    public boolean Delete(int id) throws SQLException {
+    public boolean Create(RecipeDTO dto) throws SQLException {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'Delete'");
+        throw new UnsupportedOperationException("Unimplemented method 'Create'");
     }
 
 }
