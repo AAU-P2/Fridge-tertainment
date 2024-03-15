@@ -3,8 +3,8 @@
  */
 package fridge.tertainment;
 
-import java.sql.*;
-//import fridge.tertainment.DataBase.*;
+import java.util.ArrayList;
+import fridge.tertainment.DataBase.DTO.RecipeDTO;
 
 //import fridge.tertainment.GUI.GUI_Main;
 import fridge.tertainment.sqlConnector.Repository;
@@ -17,9 +17,9 @@ public class App {
     static void Test() {
         try {
             Repository repository = new Repository();
-            var list = repository.recipes.GetRecipeDTOs();
-            for (var item : list) System.out.println(item.toString());
-            repository.recipes.UpdateRecipe(list.get(0));
+            ArrayList<RecipeDTO> list = repository.recipes.GetAll();
+            for (RecipeDTO item : list) System.out.println(item.toString());
+            repository.recipes.Update(list.get(0));
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
