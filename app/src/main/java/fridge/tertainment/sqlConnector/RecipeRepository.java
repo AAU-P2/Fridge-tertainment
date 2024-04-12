@@ -25,24 +25,28 @@ public class RecipeRepository extends DTO1Repository<RecipeDTO>{
         );
     }
 
-
     @Override
     public boolean Update(RecipeDTO dto) throws SQLException {
         statement = connection.createStatement();
-        String sql = String.format(
-            "UPDATE recipe \nSET recipe_name = '%s', recipe_instructions = '%s', recipe_Number_of_people = %d \nWHERE recipe_id = %d", 
-            dto.name, dto.text, dto.amount, dto.id);
+        String sql = """
+            UPDATE recipe
+            SET recipe_name = '%s', recipe_instructions = '%s', recipe_Number_of_people = %d
+            WHERE recipe_id = %d            
+            """.formatted(dto.name, dto.text, dto.amount, dto.id);
+
         int result = statement.executeUpdate(sql);
         return result == 1;
     }
 
-
     @Override
     public boolean Create(RecipeDTO dto) throws SQLException {
         statement = connection.createStatement();
-        String sql = String.format(
-                "INSERT INTO recipe (recipe_name, recipe_instructions, recipe_Number_of_people, recipe_cocking_time, recipe_calorie) \nVALUES ('%s', '%s', %d, %d, %d)",
-                dto.name, dto.text, dto.amount, dto.cookingTime, dto.calories);
+        String sql = """
+            INSERT INTO recipe
+                (recipe_name, recipe_instructions, recipe_Number_of_people, recipe_cocking_time, recipe_calorie)
+            VALUES ('%s', '%s', %d, %d, %d)
+            """.formatted(dto.name, dto.text, dto.amount, dto.cookingTime, dto.calories);
+
         int result = statement.executeUpdate(sql);
         return result == 1;
 

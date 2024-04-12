@@ -32,7 +32,7 @@ public class IngredienceRepository extends DTO1Repository<IngredienceDTO> {
 
     @Override
     protected IngredienceDTO mapResultToDTO(ResultSet rs) throws SQLException {
-        return new IngredienceDTO(rs.getInt (1), rs.getString(2));
+        return new IngredienceDTO(rs.getInt(1), rs.getString(2));
     }
     
 }
