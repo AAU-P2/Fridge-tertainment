@@ -1,7 +1,13 @@
 package fridge.tertainment.GUI;
 
+import fridge.tertainment.DataBase.DTO.RecipeDTO;
+import fridge.tertainment.sqlConnector.RecipeRepository;
+import fridge.tertainment.sqlConnector.Repository;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Vector;
 
 public class GUI_Panel {
     private JPanel backgroundPanel;
@@ -25,7 +31,7 @@ public class GUI_Panel {
         backgroundPanel.add(tabbedPane);
 
         homePage = new JPanel();
-        homePage.setBackground(Color.RED);
+        homePage.setBackground(Color.LIGHT_GRAY);
         GridBagLayout layout = new GridBagLayout();
         GridBagConstraints gbc = new GridBagConstraints();
         homePage.setLayout(layout);
@@ -36,11 +42,29 @@ public class GUI_Panel {
         homePageTitle.setHorizontalAlignment(JLabel.CENTER);
         homePageTitle.setBorder(BorderFactory.createLineBorder(Color.black));
 
+
+
         JScrollPane recipeList = new JScrollPane();
         JPanel scrollView = new JPanel();
-        scrollView.add(new JLabel("Dette er et langt stykke tekst der gerne skulle kunne scrolles i."));
+
+        Vector<String> recipeNames = new Vector<String>();
+
+        try {
+            ArrayList<RecipeDTO> recipes = new Repository().recipes.GetAll();
+            for (RecipeDTO recipe : recipes) {
+                recipeNames.add(recipe.name);
+            }
+
+            JList<String> r = new JList<String>(recipeNames);
+
+            scrollView.add(r);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
         recipeList.setViewportView(scrollView);
-        recipeList.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        recipeList.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS); // Change to VERTICAL_SCROLLBAR_AS_NEEDED
 
         gbc.anchor = GridBagConstraints.PAGE_START;
         gbc.fill = GridBagConstraints.HORIZONTAL;
