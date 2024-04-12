@@ -4,3 +4,5 @@
 # Ignore Gradle build output directory
 build
 app/src/main/java/fridge/tertainment/rsc/db.properties
+*.class
+gradle/.DS_Store
