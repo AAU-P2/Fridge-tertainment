@@ -4,9 +4,12 @@
 package fridge.tertainment;
 
 import java.util.ArrayList;
+
+import fridge.tertainment.DataBase.DTO.IngredienceDTO;
 import fridge.tertainment.DataBase.DTO.RecipeDTO;
 
 //import fridge.tertainment.GUI.GUI_Main;
+import fridge.tertainment.GUI.GUI_Page;
 import fridge.tertainment.sqlConnector.Repository;
 
 public class App {
@@ -17,6 +20,8 @@ public class App {
     static void Test() {
         try {
             Repository repository = new Repository();
+            repository.ingrediences.Create(new IngredienceDTO("Salt"));
+            repository.recipes.Create(new RecipeDTO("Opskrift", "Lav Mad", 2, 2000, 60));
             ArrayList<RecipeDTO> list = repository.recipes.GetAll();
             for (RecipeDTO item : list) System.out.println(item.toString());
             repository.recipes.Update(list.get(0));

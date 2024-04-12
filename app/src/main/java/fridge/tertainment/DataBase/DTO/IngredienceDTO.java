@@ -9,6 +9,11 @@ public class IngredienceDTO extends DTO1 {
         name = _name;
     }
 
+    public IngredienceDTO(String _name) {
+        id = 0;
+        name = _name;
+    }
+
     @Override
     public String toString(){
         return "ID: " + id + " , name: " + name;
