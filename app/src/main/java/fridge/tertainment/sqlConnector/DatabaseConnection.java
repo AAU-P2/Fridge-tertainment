@@ -24,12 +24,18 @@ public class DatabaseConnection {
     public static Properties properties = new Properties();
 
     public static final void getConnectionProperties() {
-        try (InputStream inputStream = new FileInputStream("Fridge-tertainment/app/src/main/java/fridge/tertainment/rsc/db.properties")) {
-
+        InputStream inputStream;
+        try {
+            inputStream = new FileInputStream("Fridge-tertainment/app/src/main/java/fridge/tertainment/rsc/db.properties");
             properties.load(inputStream);
 
         } catch (IOException ex) {
-            ex.printStackTrace();
+            try { // retry with narrow path
+                inputStream = new FileInputStream("app/src/main/java/fridge/tertainment/rsc/db.properties");
+                properties.load(inputStream);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
