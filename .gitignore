@@ -5,3 +5,4 @@
 build
 app/src/main/java/fridge/tertainment/rsc/db.properties
 *.class
+*.DS_Store

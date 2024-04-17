@@ -27,5 +27,4 @@ public class RecipeDTO extends DTO1 {
     public String toString(){
         return "ID: " + id + ", name: " + name + ", text: " + text + " amount: " + amount;
     }
-    
 }
