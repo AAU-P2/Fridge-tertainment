@@ -16,7 +16,6 @@ public class GUI_FrontPage extends GUI_Page{
 
     Repository repo;
 
-
     GUI_FrontPage() {
         super("Home Page");
 

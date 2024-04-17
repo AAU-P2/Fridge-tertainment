@@ -22,7 +22,6 @@ public class GUI_ContentPane extends JPanel {
         tabbedPane.setForeground(Color.WHITE);
         tabbedPane.setFocusable(false);
 
-
         GUI_FrontPage frontPage = new GUI_FrontPage();
         tabbedPane.addTab(frontPage.title, frontPage);
 
