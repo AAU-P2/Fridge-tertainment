@@ -24,7 +24,7 @@ public class DatabaseConnection {
     public static Properties properties = new Properties();
 
     public static final void getConnectionProperties() {
-        try (InputStream inputStream = new FileInputStream("app/src/main/java/fridge/tertainment/rsc/db.properties")) {
+        try (InputStream inputStream = new FileInputStream("Fridge-tertainment/app/src/main/java/fridge/tertainment/rsc/db.properties")) {
 
             properties.load(inputStream);
 
