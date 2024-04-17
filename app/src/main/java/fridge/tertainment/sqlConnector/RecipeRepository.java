@@ -43,19 +43,19 @@ public class RecipeRepository extends DTO1Repository<RecipeDTO>{
         String sql = """
             INSERT INTO recipe
                 (recipe_name, recipe_instructions, recipe_Number_of_people, recipe_cocking_time, recipe_calorie)
-            VALUES ('%s', '%s', %d, %d, %d)
-            """.formatted(dto.name, dto.text, dto.amount, dto.cookingTime, dto.calories);
+            VALUES (?, ?, ?, ?, ?)
+            """.formatted(dto.name, dto.text, dto.amount, dto.cookingTime, dto.calories);   
 
-            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                preparedStatement.setString(1, dto.name);
-                preparedStatement.setString(2, dto.text);
-                preparedStatement.setInt(3, dto.amount);
-                preparedStatement.setInt(4, dto.cookingTime);
-                preparedStatement.setInt(5, dto.calories);
-        
-                int result = preparedStatement.executeUpdate();
-                return result == 1;
-            }
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, dto.name);
+            preparedStatement.setString(2, dto.text);
+            preparedStatement.setInt(3, dto.amount);
+            preparedStatement.setInt(4, dto.cookingTime);
+            preparedStatement.setInt(5, dto.calories);
+    
+            int result = preparedStatement.executeUpdate();
+            return result == 1;
+        }
     }
 
 }
