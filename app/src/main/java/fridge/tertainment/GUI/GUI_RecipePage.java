@@ -69,6 +69,7 @@ public class GUI_RecipePage extends GUI_Page{
         }
 
         try {
+            ingredientsScroll = new JScrollPane();
             ingredients = new JList<String>();
             Vector<String> ingredientsVec = new Vector<String>();
             ArrayList<RecipeIngredienceDTO> RIs = repo.recipeIngrediences.GetAllById(1, null);
@@ -78,13 +79,13 @@ public class GUI_RecipePage extends GUI_Page{
             }
 
             ingredients.setListData(ingredientsVec);
-            instructionsScroll.setViewportView(ingredients);
+            ingredientsScroll.setViewportView(ingredients);
 
             gbc.ipadx = 25;
             gbc.ipady = 0;
             gbc.fill = GridBagConstraints.VERTICAL;
             gbc.anchor = GridBagConstraints.LINE_END;
-            addComponent(instructionsScroll, 1, 1, 1, 2, 0, 1);
+            addComponent(ingredientsScroll, 1, 1, 1, 2, 0, 1);
 
         } catch (Exception e) {
             throw new RuntimeException(e);
