@@ -30,10 +30,10 @@ public class RecipeRepository extends DTO1Repository<RecipeDTO>{
 
     @Override
     public boolean Update(RecipeDTO dto) throws SQLException {
-        updateStatement.setString(1, dto.getName());
-        updateStatement.setString(2, dto.getText());
-        updateStatement.setInt(3, dto.getAmount());
-        updateStatement.setInt(4, dto.getId());
+        updateStatement.setString(1, dto.name);
+        updateStatement.setString(2, dto.text);
+        updateStatement.setInt(3, dto.amount);
+        updateStatement.setInt(4, dto.id);
         int result = updateStatement.executeUpdate();
         return result == 1;
     }
