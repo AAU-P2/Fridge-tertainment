@@ -15,8 +15,8 @@ public abstract class DTO2Repository<dto2 extends DTO2> extends DatabaseConnecti
         CREATE = String.format("INSERT INTO %s VALUES ", _table);
         DELETE = String.format("DELETE FROM %s ", _table);
         WHERE = String.format(" WHERE %s = %s AND %s = %s", _id_name_1, "%d", _id_name_2, "%d");
-        SELECT_BY_ID1 = SELECT + String.format("WHERE %s = ", _id_name_1);
-        SELECT_BY_ID2 = SELECT + String.format("WHERE %s = ", _id_name_2);
+        SELECT_BY_ID1 = SELECT + String.format(" WHERE %s = ", _id_name_1);
+        SELECT_BY_ID2 = SELECT + String.format(" WHERE %s = ", _id_name_2);
     }
 
     protected abstract dto2 mapResultToDTO(ResultSet rs) throws SQLException;
@@ -70,10 +70,11 @@ public abstract class DTO2Repository<dto2 extends DTO2> extends DatabaseConnecti
         }
 
         ResultSet rs;
-        if (id1 != null)
+        if (id1 != null) {
             rs = connection.createStatement().executeQuery(SELECT_BY_ID1 + id1);
+        }
         else
-            rs = connection.createStatement().executeQuery(SELECT_BY_ID2 + id1);
+            rs = connection.createStatement().executeQuery(SELECT_BY_ID2 + id2);
 
         while (rs.next()) {
             list.add(mapResultToDTO(rs));

@@ -1,6 +1,12 @@
+/*
+* THIS CLASS WAS USED FOR TESTING AND FIGURING OUT HOW TO DISPLAY A RECIPE.
+* THE PROPER ENTRY POINT IS IN GUI_entry.java
+* */
+
 package fridge.tertainment.GUI;
 
 import fridge.tertainment.DataBase.DTO.RecipeDTO;
+import fridge.tertainment.DataBase.DTO.RecipeIngredienceDTO;
 import fridge.tertainment.sqlConnector.RecipeRepository;
 import fridge.tertainment.sqlConnector.Repository;
 
@@ -18,7 +24,14 @@ public class GUI_Panel {
     private JPanel fridgePage;
     private JPanel recipePage;
 
+    Repository repo;
+
     public GUI_Panel() {
+        try {
+        repo = new Repository();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         backgroundPanel = new JPanel();
         backgroundPanel.setLayout(new GridLayout(1,1, 0, 0));
         backgroundPanel.setSize(1280,720);
@@ -47,10 +60,12 @@ public class GUI_Panel {
         JScrollPane recipeList = new JScrollPane();
         JPanel scrollView = new JPanel();
 
+
+
         Vector<String> recipeNames = new Vector<String>();
 
         try {
-            ArrayList<RecipeDTO> recipes = new Repository().recipes.GetAll();
+            ArrayList<RecipeDTO> recipes = repo.recipes.GetAll();
             for (RecipeDTO recipe : recipes) {
                 recipeNames.add(recipe.name);
             }
@@ -98,41 +113,75 @@ public class GUI_Panel {
         GridBagLayout recipeLayout = new GridBagLayout();
         recipePage.setLayout(recipeLayout);
         GridBagConstraints recipeGBC = new GridBagConstraints();
-        JTable ingredients = new JTable();
+        JList<String> ingredients = new JList<String>();
         JScrollPane ingredientsScrollView = new JScrollPane();
         ingredientsScrollView.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         ingredientsScrollView.setViewportView(ingredients);
-        JLabel recipeTitle = new JLabel("View Recipe");
+        try {
+            JLabel recipeTitle = new JLabel(new Repository().recipes.Get(1).name);
+            recipeTitle.setVerticalAlignment(JLabel.CENTER);
+            recipeTitle.setHorizontalAlignment(JLabel.CENTER);
+            recipeTitle.setFont(new Font(recipeTitle.getFont().getFontName(), Font.BOLD, 25));
 
-        recipeTitle.setVerticalAlignment(JLabel.CENTER);
-        recipeTitle.setHorizontalAlignment(JLabel.CENTER);
-        recipeTitle.setFont(new Font(recipeTitle.getFont().getFontName(), Font.BOLD, 25));
 
+            recipeGBC.weighty = 0;
+            recipeGBC.weightx = 1;
+            recipeGBC.ipadx = 50;
+            recipeGBC.ipady = 25;
+            recipeGBC.fill = GridBagConstraints.NONE;
+            recipeGBC.anchor = GridBagConstraints.FIRST_LINE_START;
+            addComponent(recipeTitle, recipePage, recipeLayout, recipeGBC, 0,0,2,1);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
-        recipeGBC.weighty = 0;
-        recipeGBC.weightx = 1;
-        recipeGBC.ipadx = 50;
-        recipeGBC.ipady = 25;
-        recipeGBC.fill = GridBagConstraints.NONE;
-        recipeGBC.anchor = GridBagConstraints.FIRST_LINE_START;
-        addComponent(recipeTitle, recipePage, recipeLayout, recipeGBC, 0,0,2,1);
 
 
         JLabel recipeDescription = new JLabel("Description here");
         recipeDescription.setHorizontalAlignment(JLabel.CENTER);
         recipeDescription.setVerticalAlignment(JLabel.CENTER);
         recipeGBC.ipady = 0;
-        addComponent(recipeDescription, recipePage, recipeLayout, recipeGBC, 0,1,2,1);
+        addComponent(recipeDescription, recipePage, recipeLayout, recipeGBC, 0,1,1,1);
+
+        try {
+            JLabel recipeInstructions = new JLabel(repo.recipes.Get(1).text);
+            recipeGBC.anchor = GridBagConstraints.FIRST_LINE_START;
+            recipeGBC.fill = GridBagConstraints.NONE;
+            recipeGBC.ipady = 25;
+            recipeGBC.weighty = 1;
+            recipeGBC.weightx = 0;
+            recipeInstructions.setVerticalAlignment(JLabel.CENTER);
+            recipeInstructions.setHorizontalAlignment(JLabel.CENTER);
+            addComponent(recipeInstructions, recipePage, recipeLayout, recipeGBC, 0, 2,1,1);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
 
         ingredientsScrollView.setViewportView(ingredients);
+
+        Vector<String> ingrd = new Vector<String>();
+
+        try {
+
+            ArrayList<RecipeIngredienceDTO> RIs = repo.recipeIngrediences.GetAllById(1, null);
+            for (RecipeIngredienceDTO RI : RIs) {
+                ingrd.add(RI.amount + " " + RI.type + " " + repo.ingrediences.Get(RI.id_ingredience).name);
+            }
+
+            ingredients.setListData(ingrd);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
         recipeGBC.ipadx = 0;
         recipeGBC.ipady = 0;
         recipeGBC.fill = GridBagConstraints.VERTICAL;
         recipeGBC.weighty = 1;
         recipeGBC.weightx = 0;
         recipeGBC.anchor = GridBagConstraints.LINE_END;
-        addComponent(ingredientsScrollView, recipePage, recipeLayout, recipeGBC, 1,1,1,1);
+
+        addComponent(ingredientsScrollView, recipePage, recipeLayout, recipeGBC, 1,1,1,2);
 
 
         tabbedPane.addTab("View Recipe", recipePage);
