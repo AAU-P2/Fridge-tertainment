@@ -5,4 +5,4 @@
 build
 app/src/main/java/fridge/tertainment/rsc/db.properties
 *.class
-gradle/.DS_Store
+*.DS_Store

@@ -27,5 +27,25 @@ public class RecipeDTO extends DTO1 {
     public String toString(){
         return "ID: " + id + ", name: " + name + ", text: " + text + " amount: " + amount;
     }
+
+    public int getId() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getId'");
+    }
+
+    public int getAmount() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getAmount'");
+    }
+
+    public String getText() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getText'");
+    }
+
+    public String getName() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getName'");
+    }
     
 }

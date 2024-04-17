@@ -9,7 +9,6 @@ import fridge.tertainment.DataBase.DTO.IngredienceDTO;
 import fridge.tertainment.DataBase.DTO.RecipeDTO;
 
 //import fridge.tertainment.GUI.GUI_Main;
-import fridge.tertainment.GUI.GUI_Page;
 import fridge.tertainment.sqlConnector.Repository;
 
 public class App {
