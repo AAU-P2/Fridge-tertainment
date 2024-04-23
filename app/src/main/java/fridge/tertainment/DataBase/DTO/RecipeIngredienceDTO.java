@@ -19,4 +19,24 @@ public class RecipeIngredienceDTO extends DTO2 {
         return "ID: [" + id_recipe + "." + id_ingredience + "], amount: " + amount + ", type: " + type;
     }
 
+    public double getAmount() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getAmount'");
+    }
+
+    public String getType() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getType'");
+    }
+
+    public int getId1() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getId1'");
+    }
+
+    public int getId2() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getId2'");
+    }
+
 }

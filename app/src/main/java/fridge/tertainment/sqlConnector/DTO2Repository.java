@@ -3,22 +3,11 @@ package fridge.tertainment.sqlConnector;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.sql.PreparedStatement;
 
 import fridge.tertainment.DataBase.DTO.DTO2;
 
 public abstract class DTO2Repository<dto2 extends DTO2> extends DatabaseConnection implements IDTO2Repository<dto2>{
-    
-    public DTO2Repository(String _table, String _id_name_1, String _id_name_2, DatabaseConnection _connection) throws Exception {
-        super(_connection);
-        TABLE = _table;
-        SELECT = "SELECT * FROM " + TABLE;
-        CREATE = String.format("INSERT INTO %s VALUES ", _table);
-        DELETE = String.format("DELETE FROM %s ", _table);
-        WHERE = String.format(" WHERE %s = %s AND %s = %s", _id_name_1, "%d", _id_name_2, "%d");
-        SELECT_BY_ID1 = SELECT + String.format(" WHERE %s = ", _id_name_1);
-        SELECT_BY_ID2 = SELECT + String.format(" WHERE %s = ", _id_name_2);
-    }
-
     protected abstract dto2 mapResultToDTO(ResultSet rs) throws SQLException;
 
     protected final String TABLE;
@@ -28,13 +17,40 @@ public abstract class DTO2Repository<dto2 extends DTO2> extends DatabaseConnecti
     protected final String WHERE;
     protected final String SELECT_BY_ID1;
     protected final String SELECT_BY_ID2;
+    protected PreparedStatement selectStatement;
+    protected PreparedStatement createStatement;
+    protected PreparedStatement deleteStatement;
+    protected PreparedStatement selectById1Statement;
+    protected PreparedStatement selectById2Statement;
+
+
+    public DTO2Repository(String _table, String _id_name_1, String _id_name_2, DatabaseConnection _connection) throws Exception {
+        super(_connection);
+        TABLE = _table;
+        SELECT = "SELECT * FROM " + TABLE;
+        CREATE = String.format("INSERT INTO %s VALUES ", _table);
+        DELETE = String.format("DELETE FROM %s ", _table);
+        WHERE = String.format(" WHERE %s = ? AND %s = ?", _id_name_1, _id_name_2);
+        SELECT_BY_ID1 = SELECT + String.format("WHERE %s =? ", _id_name_1);
+        SELECT_BY_ID2 = SELECT + String.format("WHERE %s =? ", _id_name_2);
+
+        selectStatement = connection.prepareStatement(SELECT + WHERE);
+        createStatement = connection.prepareStatement(CREATE);
+        deleteStatement = connection.prepareStatement(DELETE + WHERE);
+        selectById1Statement = connection.prepareStatement(SELECT_BY_ID1);
+        selectById2Statement = connection.prepareStatement(SELECT_BY_ID2);
+    }
+
+ 
 
     @Override
     public dto2 Get(int id1, int id2) throws SQLException {
-        ResultSet rs = connection.createStatement().executeQuery(SELECT + String.format(WHERE, id1, id2));
+        selectStatement.setInt(1, id1);
+        selectStatement.setInt(2, id2);
+        ResultSet rs = selectStatement.executeQuery();
         rs.next();
         return mapResultToDTO(rs);
-    };
+    }
 
     @Override
     public boolean Delete(dto2 dto) throws SQLException {
@@ -43,14 +59,16 @@ public abstract class DTO2Repository<dto2 extends DTO2> extends DatabaseConnecti
 
     @Override
     public boolean Delete(int id1, int id2) throws SQLException {
-        int result = connection.createStatement().executeUpdate(DELETE + String.format(WHERE,id1, id2));
+        deleteStatement.setInt(1, id1);
+        deleteStatement.setInt(2, id2);
+        int result = deleteStatement.executeUpdate();
         return result == 1;
     };
-
+/*er ikke sikker på den her */
     @Override
     public ArrayList<dto2> GetAll() throws SQLException {
         ArrayList<dto2> list = new ArrayList<dto2>();
-        ResultSet resultSet = connection.createStatement().executeQuery(SELECT);
+        ResultSet resultSet = createStatement.executeQuery(SELECT);
 
         while (resultSet.next()) {
             list.add(mapResultToDTO(resultSet));
@@ -71,10 +89,12 @@ public abstract class DTO2Repository<dto2 extends DTO2> extends DatabaseConnecti
 
         ResultSet rs;
         if (id1 != null) {
-            rs = connection.createStatement().executeQuery(SELECT_BY_ID1 + id1);
+            selectById1Statement.setInt(1, id1);
+            rs = selectById1Statement.executeQuery();
+        } else {
+            selectById2Statement.setInt(1, id2);
+            rs = selectById2Statement.executeQuery();
         }
-        else
-            rs = connection.createStatement().executeQuery(SELECT_BY_ID2 + id2);
 
         while (rs.next()) {
             list.add(mapResultToDTO(rs));
