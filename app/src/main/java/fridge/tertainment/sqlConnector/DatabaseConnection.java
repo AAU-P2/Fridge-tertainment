@@ -21,6 +21,11 @@ public class DatabaseConnection {
         this.connection = dc.connection;
     }
 
+    public DatabaseConnection(String url, String username, String password) throws Exception {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        this.connection = DriverManager.getConnection(url, username, password);
+    }
+
     public static Properties properties = new Properties();
 
     public static final void getConnectionProperties() {
