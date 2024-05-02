@@ -27,4 +27,17 @@ public class RecipeDTO extends DTO1 {
     public String toString(){
         return "ID: " + id + ", name: " + name + ", text: " + text + " amount: " + amount;
     }
+
+    @Override
+    public boolean equals(Object o){
+        if (this == o) return true; // matching address
+        if (!(o instanceof RecipeDTO)) return false; // not matching types
+        RecipeDTO oDTO = (RecipeDTO)o;
+        return id == oDTO.id &&
+            name.equals(oDTO.name) &&
+            text.equals(oDTO.text) &&
+            amount == oDTO.amount &&
+            calories == oDTO.calories &&
+            cookingTime == oDTO.cookingTime;
+    }
 }
