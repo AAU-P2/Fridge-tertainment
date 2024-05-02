@@ -9,17 +9,17 @@ public class RecipeDTO extends DTO1 {
     public int calories;
     public String category;
 
-    public RecipeDTO (int _id, String _name, String _text, int _amount, int _calories, int _cookingTime) {
+    public RecipeDTO (int _id, String _name, String _text, int _amount, int _cookingTime, int _calories) {
         id = _id; 
         name = _name;
         text = _text;
         amount = _amount;
-        calories = _calories;
         cookingTime = _cookingTime;
+        calories = _calories;
     }
 
     // Constructor for creating a new RecipeDTO.
-    public RecipeDTO (String _name, String _text, int _amount, int _calories, int _cookingTime) {
+    public RecipeDTO (String _name, String _text, int _amount, int _cookingTime, int _calories) {
         this(0, _name, _text, _amount, _calories, _cookingTime);
     }
 

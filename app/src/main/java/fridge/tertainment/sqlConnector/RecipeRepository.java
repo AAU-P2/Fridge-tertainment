@@ -12,7 +12,7 @@ public class RecipeRepository extends DTO1Repository<RecipeDTO>{
     public RecipeRepository(DatabaseConnection _connection) throws Exception {
         super("recipe", "recipe_id", _connection);
         
-        String updateSql = "UPDATE recipe SET recipe_name = ?, recipe_instructions = ?, recipe_Number_of_people = ? WHERE recipe_id = ?";
+        String updateSql = "UPDATE recipe SET recipe_name = ?, recipe_instructions = ?, recipe_Number_of_people = ?, recipe_cocking_time = ?, recipe_calorie = ? WHERE recipe_id = ?";
         updateStatement = connection.prepareStatement(updateSql);
     }
 
@@ -33,7 +33,9 @@ public class RecipeRepository extends DTO1Repository<RecipeDTO>{
         updateStatement.setString(1, dto.name);
         updateStatement.setString(2, dto.text);
         updateStatement.setInt(3, dto.amount);
-        updateStatement.setInt(4, dto.id);
+        updateStatement.setInt(4, dto.cookingTime);
+        updateStatement.setInt(5, dto.calories);
+        updateStatement.setInt(6, dto.id);
         int result = updateStatement.executeUpdate();
         return result == 1;
     }
