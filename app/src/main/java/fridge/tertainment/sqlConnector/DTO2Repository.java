@@ -31,8 +31,8 @@ public abstract class DTO2Repository<dto2 extends DTO2> extends DatabaseConnecti
         CREATE = String.format("INSERT INTO %s VALUES ", _table);
         DELETE = String.format("DELETE FROM %s ", _table);
         WHERE = String.format(" WHERE %s = ? AND %s = ?", _id_name_1, _id_name_2);
-        SELECT_BY_ID1 = SELECT + String.format("WHERE %s =? ", _id_name_1);
-        SELECT_BY_ID2 = SELECT + String.format("WHERE %s =? ", _id_name_2);
+        SELECT_BY_ID1 = SELECT + String.format(" WHERE %s =? ", _id_name_1);
+        SELECT_BY_ID2 = SELECT + String.format(" WHERE %s =? ", _id_name_2);
 
         selectStatement = connection.prepareStatement(SELECT + WHERE);
         createStatement = connection.prepareStatement(CREATE);

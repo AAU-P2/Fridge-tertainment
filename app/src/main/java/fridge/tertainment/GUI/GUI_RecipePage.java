@@ -75,7 +75,7 @@ public class GUI_RecipePage extends GUI_Page{
             ArrayList<RecipeIngredienceDTO> RIs = repo.recipeIngrediences.GetAllById(1, null);
 
             for (RecipeIngredienceDTO RI : RIs) {
-                ingredientsVec.add(String.format("%s %.1f %s", repo.ingrediences.Get(RI.id_ingredience).name, RI.amount, RI.type));
+                ingredientsVec.add(String.format("%s %.1f %s", repo.ingrediences.Get(RI.id2).name, RI.amount, RI.type));
             }
 
             ingredients.setListData(ingredientsVec);
