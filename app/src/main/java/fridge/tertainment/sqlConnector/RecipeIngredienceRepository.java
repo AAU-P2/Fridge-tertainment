@@ -10,9 +10,9 @@ public class RecipeIngredienceRepository extends DTO2Repository<RecipeIngredienc
 
     private PreparedStatement updateStatement;
     public RecipeIngredienceRepository(DatabaseConnection _connection) throws Exception {
-        super("recipe_Ingredients", "recipe_id", "Ingredient_id", _connection);
+        super("recipe_ingredient", "recipe_id", "ingredient_id", _connection);
 
-        String updateSql = "UPDATE recipe_Ingredients SET recipe_Ingredients_amount = ?, recipe_Ingredients_Unit = ? WHERE recipe_id = ? AND Ingredient_id = ?";
+        String updateSql = "UPDATE recipe_ingredient SET recipe_ingredient_amount = ?, recipe_ingredient_Unit = ? WHERE recipe_id = ? AND ingredient_id = ?";
         updateStatement = connection.prepareStatement(updateSql);    
     }
 
@@ -22,10 +22,10 @@ public class RecipeIngredienceRepository extends DTO2Repository<RecipeIngredienc
 
     @Override
     public boolean Update(RecipeIngredienceDTO dto) throws SQLException {
-        updateStatement.setDouble(1, dto.getAmount());
-        updateStatement.setString(2, dto.getType());
-        updateStatement.setInt(3, dto.getId1());
-        updateStatement.setInt(4, dto.getId2());
+        updateStatement.setDouble(1, dto.amount);
+        updateStatement.setString(2, dto.type);
+        updateStatement.setInt(3, dto.id1);
+        updateStatement.setInt(4, dto.id2);
         int result = updateStatement.executeUpdate();
         return result == 1;
     }
