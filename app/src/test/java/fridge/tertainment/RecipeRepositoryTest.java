@@ -11,13 +11,13 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.util.ArrayList;
 
-class RepositoryTest {
+class RecipeRepositoryTest {
 
     Integer last_id = null;
     DatabaseConnection connection;
     RecipeRepository repository;
 
-    public RepositoryTest() {
+    public RecipeRepositoryTest() {
 
     }
 
@@ -86,7 +86,7 @@ class RepositoryTest {
             1,
             "Spaghetti Bolognese", 
             "Kog spaghetti. Brun hakket oksekød i en gryde, tilsæt løg, hvidløg, tomatpuré, flåede tomater og krydderier. Lad simre. Server bolognese over spaghetti.",
-            2,
+            0,
             45,
             500))
         );

@@ -13,7 +13,7 @@ public class IngredienceRepository extends DTO1Repository<IngredienceDTO> {
 
     private Statement statement;
     public IngredienceRepository(DatabaseConnection dc) throws Exception{
-        super("ingredients", "Ingredient_id", dc);
+        super("ingredient", "ingredient_id", dc);
     }
 
     @Override
@@ -25,7 +25,7 @@ public class IngredienceRepository extends DTO1Repository<IngredienceDTO> {
     @Override
     public boolean Create(IngredienceDTO dto) throws SQLException {
         statement = connection.createStatement();
-        String sql = String.format("INSERT INTO Ingredients (Ingredient_name) \nVALUES ('%s')", dto.name);
+        String sql = String.format("INSERT INTO ingredient (ingredient_name) \nVALUES ('%s')", dto.name);
         int result = statement.executeUpdate(sql);
         return result == 1;
     }

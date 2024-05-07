@@ -7,7 +7,6 @@ public class RecipeDTO extends DTO1 {
     public int amount;
     public int cookingTime;
     public int calories;
-    public String category;
 
     public RecipeDTO (int _id, String _name, String _text, int _amount, int _cookingTime, int _calories) {
         id = _id; 
