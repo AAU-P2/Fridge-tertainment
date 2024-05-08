@@ -2,14 +2,23 @@ package fridge.tertainment;
 
 import org.junit.jupiter.api.Test;
 
+import fridge.tertainment.DataBase.DTO.Col;
+import fridge.tertainment.DataBase.DTO.DTO1;
 import fridge.tertainment.DataBase.DTO.RecipeDTO;
+import fridge.tertainment.DataBase.DTO.Table;
 import fridge.tertainment.sqlConnector.DatabaseConnection;
 import fridge.tertainment.sqlConnector.RecipeRepository;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 class RecipeRepositoryTest {
 
@@ -100,5 +109,67 @@ class RecipeRepositoryTest {
         var result = repository.Get(1);
         repository.Update(old);
         assertTrue(dto.equals(result));
+    }
+
+    public static <T extends DTO1> List<T> convertSQLResultSetToObject(ResultSet resultSet, Class<T> clazz) 
+        throws SQLException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+
+        List<Field> fields = Arrays.asList(clazz.getDeclaredFields());
+        for(Field field: fields) {
+            field.setAccessible(true);
+        }
+
+        var table = clazz.getAnnotation(Table.class);
+        var id_col = table.name() + "_id";
+
+        List<T> list = new ArrayList<>();
+        while(resultSet.next()) {
+
+            T dto = clazz.getConstructor().newInstance();
+            dto.id = resultSet.getInt(id_col);
+
+            for(Field field: fields) {
+                Col col = field.getAnnotation(Col.class);
+                
+                try{
+                    String columnName = col.name();
+                    var type = field.getType();
+                    
+                    var value = resultSet.getObject(columnName, type);
+                    if (value != null) field.set(dto, value);
+                    //field.set(dto, type.getConstructor(type).newInstance(value));
+                    /*if (type == String.class) {
+                        var value = resultSet.getString(columnName);
+                        field.set(dto, type.getConstructor(String.class).newInstance(value));
+                    } else if (type == Integer.class) {
+                        resultSet.get
+                        var value = resultSet.getInt(columnName);
+                        field.set(dto, type.getConstructor(Integer.class).newInstance(value));
+                    } else
+                        
+                    
+                        ;
+                    String value = resultSet.getString(name);
+                    field.set(dto, t.getConstructor(String.class).newInstance(value));
+                    */
+                } catch (Exception e) {
+                    
+                    e.printStackTrace();
+                }
+                
+            }
+            list.add(dto);
+        }
+        return list;
+    }
+
+    @Test void ttt() throws Exception {
+        assumeTrue(RepositoryTest1());
+
+        ResultSet rs = connection.connection.createStatement().executeQuery("SELECT * FROM recipe");
+
+        var r = convertSQLResultSetToObject(rs, RecipeDTO.class);
+        for (var item : r) 
+            System.out.println(item.toString());
     }
 }

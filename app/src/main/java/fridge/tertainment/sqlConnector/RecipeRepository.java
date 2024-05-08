@@ -59,5 +59,4 @@ public class RecipeRepository extends DTO1Repository<RecipeDTO>{
             return result == 1;
         }
     }
-
 }
