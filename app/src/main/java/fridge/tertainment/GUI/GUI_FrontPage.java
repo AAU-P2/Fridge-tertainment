@@ -96,16 +96,6 @@ public class GUI_FrontPage extends GUI_Page{
         gbc.ipady = 5;
         addComponent(recipeFilterLabel, 0, 1, 1, 1, 1, 1);
 
-        clearSelectionButton = new JButton("Clear Selection");
-        gbc.anchor = GridBagConstraints.FIRST_LINE_START;
-        addComponent(clearSelectionButton, 0, 2, 1, 1, 1, 1);
-        clearSelectionButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
-                System.out.println("hej");
-            }
-        });
-
-
         recipeListScrollPane = new JScrollPane();
         recipeListScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         recipeScrollView = new JPanel();
@@ -116,6 +106,21 @@ public class GUI_FrontPage extends GUI_Page{
         JList<RecipeDTO> recipeList = new JList<RecipeDTO>(recipies);
 
         renderRecipeList(recipeList);
+
+        clearSelectionButton = new JButton("Clear Selection");
+        gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+        addComponent(clearSelectionButton, 0, 2, 1, 1, 1, 1);
+        clearSelectionButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                recipeScrollView.removeAll();
+                try {
+                    renderRecipeList(recipeList);
+                } catch (SQLException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+            }
+        });
 
             ingredientsList.addListSelectionListener(new ListSelectionListener(){
                 @Override
