@@ -2,8 +2,6 @@ package fridge.tertainment.DataBase.DTO;
 
 public class RecipeIngredienceDTO extends DTO2 {
 
-    public Integer id_recipe;
-    public Integer id_ingredience;
     public double amount;
     public String type;
 
@@ -16,6 +14,6 @@ public class RecipeIngredienceDTO extends DTO2 {
 
     @Override
     public String toString(){
-        return "ID: [" + id_recipe + "." + id_ingredience + "], amount: " + amount + ", type: " + type;
+        return "ID: [" + id1 + "." + id2 + "], amount: " + amount + ", type: " + type;
     }
 }
