@@ -2,11 +2,12 @@ package fridge.tertainment.GUI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.SQLException;
 
 public class GUI_ContentPane extends JPanel {
 
     JTabbedPane tabbedPane;
-    GUI_ContentPane() {
+    GUI_ContentPane() throws SQLException {
 
         this.setLayout(new GridLayout(1, 1, 0,0));
         this.setSize(1280,720);
@@ -16,7 +17,7 @@ public class GUI_ContentPane extends JPanel {
         this.add(tabbedPane);
     }
 
-    void initTabbedPane() {
+    void initTabbedPane() throws SQLException {
         tabbedPane = new JTabbedPane();
         tabbedPane.setBackground(Color.GRAY);
         tabbedPane.setForeground(Color.WHITE);
