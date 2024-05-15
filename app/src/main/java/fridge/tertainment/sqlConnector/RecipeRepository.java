@@ -46,7 +46,7 @@ public class RecipeRepository extends DTO1Repository<RecipeDTO>{
             INSERT INTO recipe
                 (recipe_name, recipe_instructions, recipe_Number_of_people, recipe_cooking_time, recipe_calorie)
             VALUES (?, ?, ?, ?, ?)
-            """.formatted(dto.name, dto.text, dto.amount, dto.cookingTime, dto.calories);   
+            """;   
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, dto.name);
@@ -58,5 +58,23 @@ public class RecipeRepository extends DTO1Repository<RecipeDTO>{
             int result = preparedStatement.executeUpdate();
             return result == 1;
         }
+    }
+
+    @SuppressWarnings("removal")
+    public Integer GetIdByName(String recipe_name) {
+        try {
+
+            String sql = SELECT + "WHERE recipe_name = ?";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, recipe_name);
+            ResultSet rs = preparedStatement.executeQuery();
+            rs.next();
+            return new Integer(rs.getInt(1));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new Integer(null);
     }
 }

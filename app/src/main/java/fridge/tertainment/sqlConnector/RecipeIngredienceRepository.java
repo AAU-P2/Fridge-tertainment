@@ -29,4 +29,22 @@ public class RecipeIngredienceRepository extends DTO2Repository<RecipeIngredienc
         int result = updateStatement.executeUpdate();
         return result == 1;
     }
+
+    public boolean Create(RecipeIngredienceDTO dto) throws SQLException {
+        String sql = """
+            INSERT INTO recipe_ingredient
+                (recipe_id, ingredient_id, recipe_ingredient_amount, recipe_ingredient_unit)
+            VALUES (?, ?, ?, ?)
+            """;   
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
+           
+            preparedStatement.setInt(1, dto.id1);
+            preparedStatement.setInt(2, dto.id2);
+            preparedStatement.setDouble(3, dto.amount);
+            preparedStatement.setString(4, dto.type);
+
+            int result = preparedStatement.executeUpdate();
+            return result == 1;
+        }
+    }
 }

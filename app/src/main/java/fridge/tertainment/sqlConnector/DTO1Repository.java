@@ -40,6 +40,7 @@ public abstract class DTO1Repository<dto1 extends DTO1> extends DatabaseConnecti
         }
     };
 
+
     public boolean Delete(dto1 dto) throws SQLException {
 
         return Delete(dto.id);

@@ -1,6 +1,7 @@
 package fridge.tertainment.sqlConnector;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -35,4 +36,21 @@ public class IngredienceRepository extends DTO1Repository<IngredienceDTO> {
         return new IngredienceDTO(rs.getInt(1), rs.getString(2));
     }
     
+    @SuppressWarnings("removal")
+    public Integer GetIdByName(String ingredient_name) {
+        try {
+            String sql = SELECT + "WHERE ingredient_name = ?";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, ingredient_name);
+            ResultSet rs = preparedStatement.executeQuery();
+            rs.next();
+            return new Integer(rs.getInt(1));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new Integer(null);
+    }
+
 }
