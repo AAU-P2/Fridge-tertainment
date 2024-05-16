@@ -166,7 +166,7 @@ public class GUI_Panel {
 
             ArrayList<RecipeIngredienceDTO> RIs = repo.recipeIngrediences.GetAllById(1, null);
             for (RecipeIngredienceDTO RI : RIs) {
-                ingrd.add(RI.amount + " " + RI.type + " " + repo.ingrediences.Get(RI.id_ingredience).name);
+                ingrd.add(RI.amount + " " + RI.type + " " + repo.ingrediences.Get(RI.id2).name);
             }
 
             ingredients.setListData(ingrd);
