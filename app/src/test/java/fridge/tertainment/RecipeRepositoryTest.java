@@ -2,8 +2,10 @@ package fridge.tertainment;
 
 import org.junit.jupiter.api.Test;
 
+import fridge.tertainment.DataBase.DTO.IngredienceDTO;
 import fridge.tertainment.DataBase.DTO.RecipeDTO;
 import fridge.tertainment.sqlConnector.DatabaseConnection;
+import fridge.tertainment.sqlConnector.IngredienceRepository;
 import fridge.tertainment.sqlConnector.RecipeRepository;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -100,5 +102,12 @@ class RecipeRepositoryTest {
         var result = repository.Get(1);
         repository.Update(old);
         assertTrue(dto.equals(result));
+    }
+
+
+    @Test void TestCreateIngredience() throws Exception {
+        IngredienceRepository ir = new IngredienceRepository(CreateConnection());
+        var result = ir.Create(new IngredienceDTO("Test hej"));
+        assertTrue(result);
     }
 }

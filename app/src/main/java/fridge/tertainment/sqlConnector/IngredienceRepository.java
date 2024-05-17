@@ -1,6 +1,7 @@
 package fridge.tertainment.sqlConnector;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -12,8 +13,12 @@ import fridge.tertainment.DataBase.DTO.IngredienceDTO;
 public class IngredienceRepository extends DTO1Repository<IngredienceDTO> {
 
     private Statement statement;
+    private PreparedStatement create_statement;
+    
     public IngredienceRepository(DatabaseConnection dc) throws Exception{
         super("ingredient", "ingredient_id", dc);
+        String sql = "INSERT INTO ingredient (ingredient_name) \n VALUES (?)";
+        create_statement = connection.prepareStatement(sql);
     }
 
     @Override
@@ -24,9 +29,8 @@ public class IngredienceRepository extends DTO1Repository<IngredienceDTO> {
 
     @Override
     public boolean Create(IngredienceDTO dto) throws SQLException {
-        statement = connection.createStatement();
-        String sql = String.format("INSERT INTO ingredient (ingredient_name) \nVALUES ('%s')", dto.name);
-        int result = statement.executeUpdate(sql);
+        create_statement.setString(1, dto.name);
+        int result = create_statement.executeUpdate();
         return result == 1;
     }
 
