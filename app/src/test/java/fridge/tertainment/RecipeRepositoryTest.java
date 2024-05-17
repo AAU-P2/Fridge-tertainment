@@ -112,64 +112,38 @@ class RecipeRepositoryTest {
     }
 
     public static <T extends DTO1> List<T> convertSQLResultSetToObject(ResultSet resultSet, Class<T> clazz) 
-        throws SQLException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-
+        throws NullPointerException, SQLException, NoSuchMethodException, SecurityException, InvocationTargetException, InstantiationException, IllegalAccessException {
         List<Field> fields = Arrays.asList(clazz.getDeclaredFields());
-        for(Field field: fields) {
-            field.setAccessible(true);
-        }
+        /*for(Field field: fields) { field.setAccessible(true); }*/
 
-        var table = clazz.getAnnotation(Table.class);
-        var id_col = table.name() + "_id";
+        String id_col = clazz.getAnnotation(Table.class).name() + "_id";
 
         List<T> list = new ArrayList<>();
         while(resultSet.next()) {
-
             T dto = clazz.getConstructor().newInstance();
-            dto.id = resultSet.getInt(id_col);
+            dto.id = resultSet.getInt(id_col); // since id_field is part of the superclass it won't be picked up by the list of fields
 
             for(Field field: fields) {
-                Col col = field.getAnnotation(Col.class);
-                
                 try{
-                    String columnName = col.name();
-                    var type = field.getType();
-                    
-                    var value = resultSet.getObject(columnName, type);
-                    if (value != null) field.set(dto, value);
-                    //field.set(dto, type.getConstructor(type).newInstance(value));
-                    /*if (type == String.class) {
-                        var value = resultSet.getString(columnName);
-                        field.set(dto, type.getConstructor(String.class).newInstance(value));
-                    } else if (type == Integer.class) {
-                        resultSet.get
-                        var value = resultSet.getInt(columnName);
-                        field.set(dto, type.getConstructor(Integer.class).newInstance(value));
-                    } else
-                        
-                    
-                        ;
-                    String value = resultSet.getString(name);
-                    field.set(dto, t.getConstructor(String.class).newInstance(value));
-                    */
+                    String columnName = field.getAnnotation(Col.class).name();
+                    var value = resultSet.getObject(columnName, field.getType());
+                    if (value == null) System.err.println(String.format("Column %s to field [%s] failed convertion", columnName, field.getType().getName()));
+                    else field.set(dto, value);
                 } catch (Exception e) {
-                    
                     e.printStackTrace();
                 }
-                
             }
             list.add(dto);
         }
+
         return list;
     }
 
-    @Test void ttt() throws Exception {
+    @Test void TestConvertResultToDTO() throws Exception {
         assumeTrue(RepositoryTest1());
 
         ResultSet rs = connection.connection.createStatement().executeQuery("SELECT * FROM recipe");
 
-        var r = convertSQLResultSetToObject(rs, RecipeDTO.class);
-        for (var item : r) 
-            System.out.println(item.toString());
+        convertSQLResultSetToObject(rs, RecipeDTO.class);
     }
 }
